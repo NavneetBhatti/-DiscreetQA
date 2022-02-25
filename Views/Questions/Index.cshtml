@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Assignment2.Models.Question>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <h2>Questions</h2>
+    </div>
+    <div class="col-lg-6 col-md-6" style="text-align:end">
+        <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Add Question</a>
+    </div>
+</div>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionDateAndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+
+                    @Html.ActionLink((item.QuestionName),
+                    "Create", "Answers", null, null, null, new { QuestionID = item.QuestionID }, null)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuestionDateAndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    <a asp-action="Create" asp-controller="Answers"  asp-route-QuestionID="@item.QuestionID" class="btn btn-primary">Answers <span class="badge rounded-pill bg-primary">@(item.Answer!=null?item.Answer.Count():0)</span></a>
+                    <!-- <a asp-action="Edit" asp-route-id="@item.QuestionID">Edit</a> |-->
+                    <a asp-action="Details" asp-route-id="@item.QuestionID">Details</a> 
+                    <!-- <a asp-action="Delete" asp-route-id="@item.QuestionID">Delete</a>-->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

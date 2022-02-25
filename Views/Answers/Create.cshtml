@@ -1,0 +1,72 @@
+﻿@model Assignment2.Models.Answer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<script src="https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js"></script>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <h2 class="text-black-50">Question :</h2>
+                <h2>@ViewBag.QuestionName</h2>
+                <div>
+                    <span class="text-black-50">@ViewBag.QuestionDateAndTime</span>
+                </div>
+            </div>
+            <hr />
+            <input id="QuestionID"
+                   name="QuestionID"
+                   type="hidden"
+                   asp-for="QuestionID"
+                   value="@(ViewBag.QuestionID)" />
+
+
+            <h4 class="text-black-50">Answers: <span class="badge bg-primary text-white">@ViewBag.AnswerCount</span></h4>
+            @foreach (var item in ViewBag.previousAnswers)
+            {
+                <div class="shadow rounded p-3 mt-3">
+                    @Html.Raw(@item.AnswerText)
+                    <div>
+                        <span class="text-black-50">by @item.UserEmail @item.AnswerDateAndTime</span>
+                    </div>
+                </div>
+
+            }
+
+            <div class="form-group mt-5">
+                <label asp-for="AnswerText" class="control-label font-weight-bold text-black-50"></label>
+                <textarea asp-for="AnswerText" class="form-control"></textarea>
+                <span asp-validation-for="AnswerText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Add Answer</button>
+                @*<input type="submit" value="Add Answer" class="btn btn-primary" />*@
+                <a asp-action="Index" asp-controller="Questions">Back to Question List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <!-- <a asp-action="Index">Back to List</a>-->
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#AnswerText'))
+        .then(editor => {
+            console.log(editor);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
